@@ -1,0 +1,1635 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     61592,       1627]
+NotebookOptionsPosition[     58539,       1568]
+NotebookOutlinePosition[     59425,       1596]
+CellTagsIndexPosition[     59382,       1593]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["GraphPlot of different Lattices", "Title",
+ CellChangeTimes->{{3.8119535106126747`*^9, 3.811953513129306*^9}, {
+  3.811953749947688*^9, 3.8119537614401007`*^9}, {3.811954282497768*^9, 
+  3.8119542827229013`*^9}},ExpressionUUID->"9a4aaa65-0e50-450d-a72e-\
+ae04b6dc930d"],
+
+Cell["\<\
+This Mathematica script is designed to obtain a Graph plot of different \
+lattices with the appropriate index of the sub-lattices. This apparently \
+simple task is essential to construct a neighbors table when calculating one \
+Hamiltonian using a specific lattice configuration.\
+\>", "Text",
+ CellChangeTimes->{{3.811953591630013*^9, 3.811953663655678*^9}, {
+  3.811954311484375*^9, 
+  3.81195432713383*^9}},ExpressionUUID->"7ce14f4e-12df-45ae-acd0-\
+185ce2d581cb"],
+
+Cell["v1(10\[CenterDot]/17/2020): Kagome and Honeycomb Lattice;", "Text",
+ CellChangeTimes->{{3.811953591630013*^9, 
+  3.811953702161577*^9}},ExpressionUUID->"c1ec644d-2677-4482-b674-\
+1eaf26cff073"],
+
+Cell[CellGroupData[{
+
+Cell["Kagome Lattice", "Subtitle",
+ CellChangeTimes->{{3.811953784634712*^9, 
+  3.8119537875169497`*^9}},ExpressionUUID->"d892c1da-7e38-4dae-9515-\
+abf259836164"],
+
+Cell["Definition of initial values:", "Text",
+ CellChangeTimes->{{3.811955019423208*^9, 3.811955024127573*^9}, {
+  3.811956074359767*^9, 
+  3.8119560817893677`*^9}},ExpressionUUID->"8ab61180-9450-449e-9530-\
+f487b8218152"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"l", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dmin", "=", "0.48"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dmax", "=", "0.51"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ndim", "=", 
+   RowBox[{"l", "*", "l"}]}], ";"}]}], "Input",
+ CellChangeTimes->{
+  3.811954683263184*^9, {3.811954943554627*^9, 3.811954976445999*^9}, 
+   3.81195506975136*^9, {3.811955305322031*^9, 3.811955331380046*^9}},
+ CellLabel->
+  "In[770]:=",ExpressionUUID->"feaad5d3-2df8-44b5-8895-9e4441847d6b"],
+
+Cell["\<\
+The x and y position of each atom (we have A,B and C in this case) are \
+determined from the primitive lattice vectors of your system. We assign a \
+label ii = m(x)+(n(y)-1)*l for each atom and construct the full lattice list \
+\[OpenCurlyDoubleQuote]plist\[CloseCurlyDoubleQuote]:\
+\>", "Text",
+ CellChangeTimes->{{3.811956000007224*^9, 
+  3.811956084677417*^9}},ExpressionUUID->"b3127f10-84ed-45c9-9472-\
+e7de1a012540"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"plist", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"k", ",", "1", ",", 
+       RowBox[{"3", "*", "ndim"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Do", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ii", "=", 
+      RowBox[{"m", "+", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"n", "-", "1"}], ")"}], "*", "l"}]}]}], ";", 
+     RowBox[{"xa", "=", 
+      RowBox[{"(", 
+       RowBox[{"m", "+", 
+        FractionBox["n", "2"]}], ")"}]}], ";", 
+     RowBox[{"ya", "=", 
+      RowBox[{
+       FractionBox[
+        SqrtBox["3"], "2"], "*", "n"}]}], ";", 
+     RowBox[{"xb", "=", 
+      RowBox[{"xa", "+", 
+       FractionBox["1", "2"]}]}], ";", 
+     RowBox[{"yb", "=", "ya"}], ";", 
+     RowBox[{"xc", "=", 
+      RowBox[{"xa", "+", 
+       FractionBox["1", "4"]}]}], ";", 
+     RowBox[{"yc", "=", 
+      RowBox[{"ya", "+", 
+       FractionBox[
+        SqrtBox["3"], "4"]}]}], ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{"ii", ",", "1"}], "]"}], "]"}], "=", "xa"}], ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{"ii", ",", "2"}], "]"}], "]"}], "=", "ya"}], ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{
+         RowBox[{"ii", "+", "ndim"}], ",", "1"}], "]"}], "]"}], "=", "xb"}], 
+     ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{
+         RowBox[{"ii", "+", "ndim"}], ",", "2"}], "]"}], "]"}], "=", "yb"}], 
+     ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{
+         RowBox[{"ii", "+", "ndim", "+", "ndim"}], ",", "1"}], "]"}], "]"}], 
+      "=", "xc"}], ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{
+         RowBox[{"ii", "+", "ndim", "+", "ndim"}], ",", "2"}], "]"}], "]"}], 
+      "=", "yc"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"n", ",", "1", ",", "l"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"m", ",", "1", ",", "l"}], "}"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.70531573353798*^9, 3.705315761938847*^9}, {
+   3.705315801676847*^9, 3.70531582291463*^9}, {3.705315896784683*^9, 
+   3.705315923818364*^9}, {3.705315996749425*^9, 3.705316009354389*^9}, {
+   3.7053160410359373`*^9, 3.705316095579151*^9}, {3.705316350722452*^9, 
+   3.70531642607487*^9}, {3.705316631695014*^9, 3.7053166403036757`*^9}, {
+   3.705316939851556*^9, 3.705316947291449*^9}, {3.7053252927398252`*^9, 
+   3.705325294733039*^9}, {3.705326408382145*^9, 3.705326411559382*^9}, {
+   3.718384608034583*^9, 3.718384713525352*^9}, {3.718384745058425*^9, 
+   3.7183850119324493`*^9}, {3.718385097282495*^9, 3.718385117321714*^9}, {
+   3.719308386114327*^9, 3.719308393420453*^9}, 3.719308431494237*^9, 
+   3.8079598759278584`*^9, {3.811943885542369*^9, 3.811943885666176*^9}, {
+   3.8119440632874823`*^9, 3.8119440634227047`*^9}, {3.811944483181539*^9, 
+   3.811944485833662*^9}, {3.811944549332621*^9, 3.811944619047138*^9}, {
+   3.811947406338689*^9, 3.811947408125717*^9}, {3.8119492018889017`*^9, 
+   3.811949233624913*^9}, {3.8119493188753357`*^9, 3.81194932150253*^9}, {
+   3.8119493628879642`*^9, 3.811949365093493*^9}, {3.811950022577096*^9, 
+   3.8119500263846617`*^9}, {3.811950062303727*^9, 3.811950125405636*^9}, {
+   3.811950678234441*^9, 3.8119506991843653`*^9}, {3.811950834537671*^9, 
+   3.811950869645505*^9}, {3.8119510517333193`*^9, 3.811951051891472*^9}, {
+   3.811951795550292*^9, 3.811951819946045*^9}, {3.811951958511681*^9, 
+   3.8119519914529667`*^9}, {3.8119520230623903`*^9, 3.811952025742341*^9}, {
+   3.811952184910014*^9, 3.8119522014851017`*^9}, {3.8119553285964127`*^9, 
+   3.8119553370183697`*^9}},
+ CellLabel->
+  "In[774]:=",ExpressionUUID->"68dabf9c-95d9-4816-8bea-a4d4b90ea688"],
+
+Cell["\<\
+The connect table shall be the one with the information of each next neighbor \
+connection.  \[OpenCurlyDoubleQuote]Dmin\[CloseCurlyDoubleQuote] and \
+\[OpenCurlyDoubleQuote]Dmax\[CloseCurlyDoubleQuote] are defined from your \
+lattice spacing \[OpenCurlyDoubleQuote]a\[CloseCurlyDoubleQuote] and due to \
+numerical fluctuations we do not have dist = a exactly. In our case, the \
+distance between atoms in the same unit  cell is a/2=0.5:\
+\>", "Text",
+ CellChangeTimes->{{3.811955706138741*^9, 3.811955819472871*^9}, {
+  3.81195608834149*^9, 
+  3.811956088813163*^9}},ExpressionUUID->"33c2a8ab-0700-42f4-8944-\
+021129c1e658"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"connect", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{"0", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"3", "*", "ndim"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"j", ",", "1", ",", 
+       RowBox[{"3", "*", "ndim"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"nz", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"vneigh", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{"0", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"3", "*", "ndim"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"j", ",", "1", ",", "nz"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Do", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ix", "=", 
+     RowBox[{"plist", "[", 
+      RowBox[{"[", 
+       RowBox[{"i", ",", "1"}], "]"}], "]"}]}], ";", 
+    RowBox[{"iy", "=", 
+     RowBox[{"plist", "[", 
+      RowBox[{"[", 
+       RowBox[{"i", ",", "2"}], "]"}], "]"}]}], ";", 
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"jx", "=", 
+        RowBox[{"plist", "[", 
+         RowBox[{"[", 
+          RowBox[{"j", ",", "1"}], "]"}], "]"}]}], ";", 
+       RowBox[{"jy", "=", 
+        RowBox[{"plist", "[", 
+         RowBox[{"[", 
+          RowBox[{"j", ",", "2"}], "]"}], "]"}]}], ";", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"dist", "=", 
+           RowBox[{"Sqrt", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"ix", "-", "jx"}], ")"}], "^", "2"}], "+", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"iy", "-", "jy"}], ")"}], "^", "2"}]}], "]"}]}], ";", 
+          RowBox[{"dmin", "<", "dist", "<", "dmax"}]}], ",", 
+         RowBox[{
+          RowBox[{"connect", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", ",", "j"}], "]"}], "]"}], "=", "1"}]}], "]"}]}], ",", 
+      RowBox[{"{", 
+       RowBox[{"j", ",", "1", ",", 
+        RowBox[{"3", "*", "ndim"}]}], "}"}]}], "]"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", "1", ",", 
+     RowBox[{"3", "*", "ndim"}]}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{
+  3.68355287020531*^9, 3.683555424827508*^9, {3.683555455723852*^9, 
+   3.683555503364233*^9}, {3.683555541804048*^9, 3.683555645422277*^9}, {
+   3.683556987362072*^9, 3.683556988732751*^9}, {3.683560399266123*^9, 
+   3.683560399638197*^9}, {3.6835649228162003`*^9, 3.683564944907477*^9}, {
+   3.683565268684269*^9, 3.683565311172345*^9}, {3.719138165450927*^9, 
+   3.71913818501062*^9}, {3.719308803862968*^9, 3.719308813258666*^9}, {
+   3.719309073548367*^9, 3.719309091132753*^9}, {3.811949518803224*^9, 
+   3.8119495203604813`*^9}, 3.811949595719633*^9, {3.811949686339658*^9, 
+   3.8119496888114157`*^9}, {3.811950129648891*^9, 3.8119501440525*^9}, {
+   3.8119510335031443`*^9, 3.811951084768817*^9}, {3.811951889392056*^9, 
+   3.811951955093813*^9}, {3.8119520523192863`*^9, 3.811952055148897*^9}, {
+   3.811952160413973*^9, 3.811952163405252*^9}, {3.811952228508003*^9, 
+   3.811952231476926*^9}, {3.811952301095909*^9, 3.811952301196137*^9}, {
+   3.811952700761703*^9, 3.811952706826412*^9}, {3.811952827447975*^9, 
+   3.81195285171904*^9}, {3.811952897680686*^9, 3.811952916616061*^9}, {
+   3.811955344783184*^9, 3.811955349143931*^9}, {3.811955425095825*^9, 
+   3.811955454238594*^9}, {3.811955831630069*^9, 3.8119558487381277`*^9}, {
+   3.811955884373118*^9, 3.811955914456791*^9}},
+ CellLabel->
+  "In[789]:=",ExpressionUUID->"739ffd34-0d8d-4128-a46a-e6d94f2613e4"],
+
+Cell["\<\
+Finally, the GraphPlot of \[OpenCurlyDoubleQuote]connect\
+\[CloseCurlyDoubleQuote]. Let\[CloseCurlyQuote]s take a closer look at each \
+option (apart from the direct visual configuration ones): \
+\>", "Text",
+ CellChangeTimes->{{3.8119541441033382`*^9, 3.811954227571589*^9}, {
+  3.811955117353794*^9, 
+  3.811955120032761*^9}},ExpressionUUID->"1e0174f9-f3cc-4b5d-938d-\
+39af521c9152"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ StyleBox["VertexCoordinate", "Item1Numbered",
+  FontColor->RGBColor[0.5, 0, 0.5]],
+ StyleBox[" ", "Item1Numbered",
+  FontColor->RGBColor[0, 0, 1]],
+ StyleBox["- specifies the coordinates for the  center of the vertices \
+obtained at the \[OpenCurlyDoubleQuote]plist\[CloseCurlyDoubleQuote] \
+definition;", "Item1Numbered"]
+}], "Item1Numbered",
+ CellChangeTimes->{{3.8119542201452436`*^9, 3.811954261114543*^9}, {
+  3.811954408814906*^9, 
+  3.811954436243778*^9}},ExpressionUUID->"5ae97331-a5f4-4ad5-8a06-\
+30f83945db25"],
+
+Cell[TextData[{
+ StyleBox["VertexShapeFunction", "Item1Numbered",
+  FontColor->RGBColor[0.5, 0, 0.5]],
+ StyleBox[" ", "Item1Numbered",
+  FontColor->RGBColor[0, 0, 1]],
+ StyleBox["- specifies a function to use to generate primitives for rendering \
+each vertex; In this case we choose circles defined by the respective \
+parametric function;", "Item1Numbered"]
+}], "Item1Numbered",
+ CellChangeTimes->{{3.8119542201452436`*^9, 3.811954261114543*^9}, {
+  3.811954408814906*^9, 3.8119544556942472`*^9}, {3.8119544974870663`*^9, 
+  3.811954548856062*^9}, {3.8119546082318573`*^9, 3.811954611215678*^9}, {
+  3.811954751098151*^9, 3.811954751615225*^9}, {3.8119550830908823`*^9, 
+  3.8119550945367537`*^9}},ExpressionUUID->"a7b5a1ab-77c1-41f9-ace4-\
+f1913868215a"],
+
+Cell[TextData[{
+ StyleBox["VertexLabels", "Item1Numbered",
+  FontColor->RGBColor[0.5, 0, 0.5]],
+ StyleBox[" ", "Item1Numbered",
+  FontColor->RGBColor[0, 0, 1]],
+ StyleBox["- specifies what labels and label positions should be used for \
+vertices.\[LineSeparator]", "Item1Numbered"]
+}], "Item1Numbered",
+ CellChangeTimes->{{3.8119542201452436`*^9, 3.811954261114543*^9}, {
+  3.811954408814906*^9, 3.8119544556942472`*^9}, {3.8119544974870663`*^9, 
+  3.811954548856062*^9}, {3.8119546082318573`*^9, 3.811954611215678*^9}, {
+  3.811954751098151*^9, 3.811954751615225*^9}, {3.8119550830908823`*^9, 
+  3.811955112438236*^9}},ExpressionUUID->"1275609f-541e-4c3c-98e1-\
+91eb26069530"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"phexg", "=", 
+  RowBox[{"GraphPlot", "[", 
+   RowBox[{"connect", ",", 
+    RowBox[{"VertexCoordinates", "\[Rule]", "plist"}], ",", 
+    RowBox[{"PlotStyle", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"Black", ",", 
+       RowBox[{"PointSize", "[", ".02", "]"}], ",", 
+       RowBox[{"Thickness", "[", "0.002", "]"}]}], "}"}]}], ",", 
+    RowBox[{"Frame", "\[Rule]", "False"}], ",", 
+    RowBox[{"FrameTicks", "\[Rule]", "Automatic"}], ",", 
+    RowBox[{"VertexShapeFunction", "\[Rule]", 
+     RowBox[{"Function", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"p", ",", "l"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Cyan", ",", 
+         RowBox[{"Point", "[", "p", "]"}]}], "}"}]}], "]"}]}], ",", 
+    RowBox[{"VertexLabels", " ", "->", " ", 
+     RowBox[{"Placed", "[", 
+      RowBox[{"Automatic", ",", " ", "Center"}], "]"}]}], ",", " ", "\n", " ", 
+    RowBox[{"VertexSize", " ", "\[Rule]", "0.2"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{
+  3.612109958303524*^9, {3.625911390709497*^9, 3.625911393765202*^9}, {
+   3.6835569106499367`*^9, 3.683556919520279*^9}, {3.683562735919743*^9, 
+   3.683562801704846*^9}, {3.6835645001144657`*^9, 3.6835645014560633`*^9}, {
+   3.683567317527584*^9, 3.683567334940463*^9}, {3.683567428518811*^9, 
+   3.6835674287454147`*^9}, {3.683567540813298*^9, 3.683567546418302*^9}, {
+   3.7191382422599983`*^9, 3.719138279850976*^9}, {3.7191445692071466`*^9, 
+   3.719144581594819*^9}, {3.719144617690599*^9, 3.719144649833774*^9}, {
+   3.71914480139281*^9, 3.7191448018356743`*^9}, {3.7193088341804934`*^9, 
+   3.7193088521880827`*^9}, {3.7193090074079657`*^9, 
+   3.7193090421116858`*^9}, {3.719309726005651*^9, 3.7193097467872763`*^9}, {
+   3.7193098060939007`*^9, 3.719309880921158*^9}, {3.807959897339982*^9, 
+   3.807959926272297*^9}, {3.811949812172328*^9, 3.811949828710033*^9}, {
+   3.811949981987908*^9, 3.811949984106723*^9}, {3.811954236536393*^9, 
+   3.811954249132844*^9}, 3.811954508966099*^9, {3.811954582998499*^9, 
+   3.8119545849292603`*^9}, {3.811954697235354*^9, 3.811954715387808*^9}, 
+   3.811954761955018*^9, {3.811954805430003*^9, 3.811954887303191*^9}, {
+   3.811955128451754*^9, 3.8119551593865147`*^9}, {3.811955239414134*^9, 
+   3.811955239971163*^9}},
+ CellLabel->
+  "In[793]:=",ExpressionUUID->"d5798a85-e299-4937-b8b3-4a856e431ef1"],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {GrayLevel[0], PointSize[0.02], Thickness[0.002], Opacity[0.7], 
+    LineBox[CompressedData["
+1:eJyF1bFOAkEUhWFEQgwShGVBtPMB1NJY7URjY7SQwlhrrO2t7H0T7X0GW3sf
+wGhrYYKFJi6Y/RK4JFsMP3vOcO/cM1uXN+Pr5Vqtdvb71Mvn7/NVPJxcvN0+
+fRTlF6m6ln8Xd/sHO6/Pn+W6kRa/L18JeDNV9dvB+/JuwDvoZ8H78jzgffSn
+9ZjwfydzuPWV19P77t5Le7yUqvWYpy9vB9z6y1v4dwN9eRZw+yPv4Z8H+vJh
+wO2ffIB/o/x9Y9aP6lpu/+TNNDg8vX8sVtK0nov15d2A2z95B/8s0JfnAbd/
+8j7+w0BfPgq4/ZOv4z89/6uzelXXcvsnb6Xi/OroeHttVs/F+vIs4PZP3sM/
+D/Tlw4DbP/kA/1GgL98MuP2Tb+DvfWX+et+Yj94X5pf3hfliXqsvNz/MW/3l
+zr956f7kzq956nyZV/rLnR/zRn+559+8cH9yz6954vlyXvWXO//Om/5y59d5
+cX9y5895+p+PH01ef/c=
+     "]]}, 
+   {GrayLevel[0], PointSize[0.02], Thickness[0.002], EdgeForm[{GrayLevel[0], 
+    Opacity[0.7]}], {
+     {RGBColor[0, 1, 1], PointBox[{1.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["1",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {1.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{2.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["2",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {2.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["3",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["4",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{2., 1.7320508075688772`}]}, InsetBox[
+      StyleBox["5",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {2., 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3., 1.7320508075688772`}]}, InsetBox[
+      StyleBox["6",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3., 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4., 1.7320508075688772`}]}, InsetBox[
+      StyleBox["7",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4., 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5., 1.7320508075688772`}]}, InsetBox[
+      StyleBox["8",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5., 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{2.5, 2.598076211353316}]}, InsetBox[
+      StyleBox["9",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {2.5, 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.5, 2.598076211353316}]}, InsetBox[
+      StyleBox["10",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.5, 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.5, 2.598076211353316}]}, InsetBox[
+      StyleBox["11",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.5, 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5.5, 2.598076211353316}]}, InsetBox[
+      StyleBox["12",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5.5, 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3., 3.4641016151377544`}]}, InsetBox[
+      StyleBox["13",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3., 3.4641016151377544},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4., 3.4641016151377544`}]}, InsetBox[
+      StyleBox["14",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4., 3.4641016151377544},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5., 3.4641016151377544`}]}, InsetBox[
+      StyleBox["15",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5., 3.4641016151377544},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6., 3.4641016151377544`}]}, InsetBox[
+      StyleBox["16",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6., 3.4641016151377544},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{2., 0.8660254037844386}]}, InsetBox[
+      StyleBox["17",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {2., 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3., 0.8660254037844386}]}, InsetBox[
+      StyleBox["18",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3., 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4., 0.8660254037844386}]}, InsetBox[
+      StyleBox["19",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4., 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5., 0.8660254037844386}]}, InsetBox[
+      StyleBox["20",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5., 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{2.5, 1.7320508075688772`}]}, InsetBox[
+      StyleBox["21",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {2.5, 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.5, 1.7320508075688772`}]}, InsetBox[
+      StyleBox["22",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.5, 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.5, 1.7320508075688772`}]}, InsetBox[
+      StyleBox["23",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.5, 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5.5, 1.7320508075688772`}]}, InsetBox[
+      StyleBox["24",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5.5, 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3., 2.598076211353316}]}, InsetBox[
+      StyleBox["25",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3., 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4., 2.598076211353316}]}, InsetBox[
+      StyleBox["26",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4., 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5., 2.598076211353316}]}, InsetBox[
+      StyleBox["27",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5., 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6., 2.598076211353316}]}, InsetBox[
+      StyleBox["28",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6., 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.5, 3.4641016151377544`}]}, InsetBox[
+      StyleBox["29",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.5, 3.4641016151377544},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.5, 3.4641016151377544`}]}, InsetBox[
+      StyleBox["30",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.5, 3.4641016151377544},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5.5, 3.4641016151377544`}]}, InsetBox[
+      StyleBox["31",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5.5, 3.4641016151377544},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6.5, 3.4641016151377544`}]}, InsetBox[
+      StyleBox["32",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6.5, 3.4641016151377544},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{1.75, 1.299038105676658}]}, InsetBox[
+      StyleBox["33",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {1.75, 1.299038105676658},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{2.75, 1.299038105676658}]}, InsetBox[
+      StyleBox["34",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {2.75, 1.299038105676658},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.75, 1.299038105676658}]}, InsetBox[
+      StyleBox["35",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.75, 1.299038105676658},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.75, 1.299038105676658}]}, InsetBox[
+      StyleBox["36",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.75, 1.299038105676658},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{2.25, 2.1650635094610964`}]}, InsetBox[
+      StyleBox["37",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {2.25, 2.1650635094610964},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.25, 2.1650635094610964`}]}, InsetBox[
+      StyleBox["38",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.25, 2.1650635094610964},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.25, 2.1650635094610964`}]}, InsetBox[
+      StyleBox["39",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.25, 2.1650635094610964},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5.25, 2.1650635094610964`}]}, InsetBox[
+      StyleBox["40",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5.25, 2.1650635094610964},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{2.75, 3.031088913245535}]}, InsetBox[
+      StyleBox["41",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {2.75, 3.031088913245535},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.75, 3.031088913245535}]}, InsetBox[
+      StyleBox["42",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.75, 3.031088913245535},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.75, 3.031088913245535}]}, InsetBox[
+      StyleBox["43",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.75, 3.031088913245535},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5.75, 3.031088913245535}]}, InsetBox[
+      StyleBox["44",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5.75, 3.031088913245535},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.25, 3.8971143170299736`}]}, InsetBox[
+      StyleBox["45",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.25, 3.8971143170299736},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.25, 3.8971143170299736`}]}, InsetBox[
+      StyleBox["46",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.25, 3.8971143170299736},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5.25, 3.8971143170299736`}]}, InsetBox[
+      StyleBox["47",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5.25, 3.8971143170299736},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6.25, 3.8971143170299736`}]}, InsetBox[
+      StyleBox["48",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.02,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6.25, 3.8971143170299736},
+      BaseStyle->"Graphics"]}}},
+  BaseStyle->{
+    GrayLevel[0], 
+    PointSize[0.02], 
+    Thickness[0.002]},
+  FormatType->TraditionalForm,
+  Frame->False,
+  FrameTicks->Automatic,
+  ImageSize->{631.3636363636376, Automatic}]], "Output",
+ CellChangeTimes->{{3.811954856863624*^9, 3.811954888120319*^9}, 
+   3.8119551327077293`*^9, 3.811955163859844*^9, {3.8119552410697727`*^9, 
+   3.8119552482648897`*^9}, 3.811955460363505*^9, 3.811955920229604*^9},
+ CellLabel->
+  "Out[793]=",ExpressionUUID->"2d0942e3-fc5b-4a80-8252-afd3ef30c316"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Honeycomb Lattice", "Subtitle",
+ CellChangeTimes->{{3.81195381089456*^9, 
+  3.811953817943756*^9}},ExpressionUUID->"28d76f0a-bb45-4637-982c-\
+90b8c2ead94b"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"l", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dmin", "=", "0.99"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dmax", "=", "1.01"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ndim", "=", 
+   RowBox[{"l", "*", "l"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.811955361995104*^9, 3.8119553735559263`*^9}},
+ CellLabel->
+  "In[824]:=",ExpressionUUID->"45746100-3629-49b0-aae1-4e61d31cb022"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ndim", "=", 
+   RowBox[{"l", "*", "l"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"plist", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"k", ",", "1", ",", 
+       RowBox[{"2", "*", "ndim"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Do", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ii", "=", 
+      RowBox[{"m", "+", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"n", "-", "1"}], ")"}], "*", "l"}]}]}], ";", 
+     RowBox[{"xa", "=", 
+      RowBox[{
+       FractionBox["3", "2"], 
+       RowBox[{"(", 
+        RowBox[{"m", "+", "n"}], ")"}]}]}], ";", 
+     RowBox[{"ya", "=", 
+      RowBox[{
+       FractionBox[
+        SqrtBox["3"], "2"], 
+       RowBox[{"(", 
+        RowBox[{"m", "-", "n"}], ")"}]}]}], ";", 
+     RowBox[{"xb", "=", 
+      RowBox[{"xa", "-", "1"}]}], ";", 
+     RowBox[{"yb", "=", "ya"}], ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{"ii", ",", "1"}], "]"}], "]"}], "=", "xa"}], ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{"ii", ",", "2"}], "]"}], "]"}], "=", "ya"}], ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{
+         RowBox[{"ii", "+", "ndim"}], ",", "1"}], "]"}], "]"}], "=", "xb"}], 
+     ";", 
+     RowBox[{
+      RowBox[{"plist", "[", 
+       RowBox[{"[", 
+        RowBox[{
+         RowBox[{"ii", "+", "ndim"}], ",", "2"}], "]"}], "]"}], "=", "yb"}]}],
+     ",", 
+    RowBox[{"{", 
+     RowBox[{"n", ",", "1", ",", "l"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"m", ",", "1", ",", "l"}], "}"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8119538245245647`*^9, 3.8119538294015093`*^9}},
+ CellLabel->
+  "In[821]:=",ExpressionUUID->"238b8682-a075-4550-bba3-14569c8383d9"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"connect", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{"0", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"2", "ndim"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"j", ",", "1", ",", 
+       RowBox[{"2", "ndim"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"icount", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{"0", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"2", "ndim"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"nz", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"vneigh", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{"0", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"2", "ndim"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"j", ",", "1", ",", "nz"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Do", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ix", "=", 
+     RowBox[{"plist", "[", 
+      RowBox[{"[", 
+       RowBox[{"i", ",", "1"}], "]"}], "]"}]}], ";", 
+    RowBox[{"iy", "=", 
+     RowBox[{"plist", "[", 
+      RowBox[{"[", 
+       RowBox[{"i", ",", "2"}], "]"}], "]"}]}], ";", 
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"jx", "=", 
+        RowBox[{"plist", "[", 
+         RowBox[{"[", 
+          RowBox[{"j", ",", "1"}], "]"}], "]"}]}], ";", 
+       RowBox[{"jy", "=", 
+        RowBox[{"plist", "[", 
+         RowBox[{"[", 
+          RowBox[{"j", ",", "2"}], "]"}], "]"}]}], ";", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"dist", "=", 
+           RowBox[{"Sqrt", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"ix", "-", "jx"}], ")"}], "^", "2"}], "+", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"iy", "-", "jy"}], ")"}], "^", "2"}]}], "]"}]}], ";", 
+          RowBox[{"dmin", "<", "dist", "<", "dmax"}]}], ",", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"icount", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "=", 
+           RowBox[{
+            RowBox[{"icount", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "+", "1"}]}], ";", 
+          RowBox[{
+           RowBox[{"connect", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", ",", "j"}], "]"}], "]"}], "=", "1"}], ";", 
+          RowBox[{
+           RowBox[{"vneigh", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", ",", 
+              RowBox[{"icount", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], "]"}], "]"}], "=", "j"}]}]}],
+         "]"}]}], ",", 
+      RowBox[{"{", 
+       RowBox[{"j", ",", "1", ",", 
+        RowBox[{"2", "ndim"}]}], "}"}]}], "]"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", "1", ",", 
+     RowBox[{"2", "ndim"}]}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{
+  3.68355287020531*^9, 3.683555424827508*^9, {3.683555455723852*^9, 
+   3.683555503364233*^9}, {3.683555541804048*^9, 3.683555645422277*^9}, {
+   3.683556987362072*^9, 3.683556988732751*^9}, {3.683560399266123*^9, 
+   3.683560399638197*^9}, {3.6835649228162003`*^9, 3.683564944907477*^9}, {
+   3.683565268684269*^9, 3.683565311172345*^9}, {3.719138165450927*^9, 
+   3.71913818501062*^9}, {3.719308803862968*^9, 3.719308813258666*^9}, {
+   3.719309073548367*^9, 3.719309091132753*^9}, {3.81195274224885*^9, 
+   3.811952761623914*^9}, {3.811955386664794*^9, 3.811955417429492*^9}, {
+   3.811955625321611*^9, 3.81195565843817*^9}, {3.8119559360085163`*^9, 
+   3.811955973609199*^9}},
+ CellLabel->
+  "In[816]:=",ExpressionUUID->"d5ee0ec2-aa49-403f-8fe2-c9069c154ee8"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"phexg", "=", 
+  RowBox[{"GraphPlot", "[", 
+   RowBox[{"connect", ",", 
+    RowBox[{"VertexCoordinates", "\[Rule]", "plist"}], ",", 
+    RowBox[{"PlotStyle", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"Black", ",", 
+       RowBox[{"PointSize", "[", ".04", "]"}], ",", 
+       RowBox[{"Thickness", "[", "0.002", "]"}]}], "}"}]}], ",", 
+    RowBox[{"Frame", "\[Rule]", "False"}], ",", 
+    RowBox[{"FrameTicks", "\[Rule]", "Automatic"}], ",", 
+    RowBox[{"VertexShapeFunction", "\[Rule]", 
+     RowBox[{"Function", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"p", ",", "l"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Cyan", ",", 
+         RowBox[{"Point", "[", "p", "]"}]}], "}"}]}], "]"}]}], ",", 
+    RowBox[{"VertexLabels", " ", "->", " ", 
+     RowBox[{"Placed", "[", 
+      RowBox[{"Automatic", ",", " ", "Center"}], "]"}]}], ",", " ", "\n", " ", 
+    RowBox[{"VertexSize", " ", "\[Rule]", "0.9"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{
+  3.612109958303524*^9, {3.625911390709497*^9, 3.625911393765202*^9}, {
+   3.6835569106499367`*^9, 3.683556919520279*^9}, {3.683562735919743*^9, 
+   3.683562801704846*^9}, {3.6835645001144657`*^9, 3.6835645014560633`*^9}, {
+   3.683567317527584*^9, 3.683567334940463*^9}, {3.683567428518811*^9, 
+   3.6835674287454147`*^9}, {3.683567540813298*^9, 3.683567546418302*^9}, {
+   3.7191382422599983`*^9, 3.719138279850976*^9}, {3.7191445692071466`*^9, 
+   3.719144581594819*^9}, {3.719144617690599*^9, 3.719144649833774*^9}, {
+   3.71914480139281*^9, 3.7191448018356743`*^9}, {3.7193088341804934`*^9, 
+   3.7193088521880827`*^9}, {3.7193090074079657`*^9, 
+   3.7193090421116858`*^9}, {3.719309726005651*^9, 3.7193097467872763`*^9}, {
+   3.7193098060939007`*^9, 3.719309880921158*^9}, {3.807959897339982*^9, 
+   3.807959926272297*^9}, {3.8119551822278557`*^9, 3.811955221346681*^9}},
+ CellLabel->
+  "In[828]:=",ExpressionUUID->"b46d0105-027e-4f9c-839d-abbd97246cf7"],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {GrayLevel[0], PointSize[0.04], Thickness[0.002], Opacity[0.7], 
+    LineBox[CompressedData["
+1:eJyNkbEOAUEURScoFCpRiEJYIVvpVSZqlUotUetVvscHaEfpI3yAxCdoSHY2
+cs8zGZtMcXPum3n37nh32OybzrnycxrxVF/bO/2gyTv+vN4+jpfnMsNDpbvw
+c568F/UryfW9PvycJx/402I1v99aPsX1vSH8nCcfpfYPmX7C73yWx/tDvb/6
+bT+qmS/JQ51P/bYf1cxvub5XwM958onZX/uw/ahmPsvj/7xi/8Q8OfNZru8V
+8Nt+VDN/ksf7p/Bznnxm9tc+bD+qbT7VOZ7c/0/O/UvoL38DETw0Rg==
+     "]]}, 
+   {GrayLevel[0], PointSize[0.04], Thickness[0.002], EdgeForm[{GrayLevel[0], 
+    Opacity[0.7]}], {
+     {RGBColor[0, 1, 1], PointBox[{3., 0.}]}, InsetBox[
+      StyleBox["1",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3., 0.},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["2",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6., 1.7320508075688772`}]}, InsetBox[
+      StyleBox["3",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6., 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{7.5, 2.598076211353316}]}, InsetBox[
+      StyleBox["4",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {7.5, 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{4.5, -0.8660254037844386}]}, InsetBox[
+      StyleBox["5",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {4.5, -0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6., 0.}]}, InsetBox[
+      StyleBox["6",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6., 0.},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{7.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["7",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {7.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{9., 1.7320508075688772`}]}, InsetBox[
+      StyleBox["8",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {9., 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6., -1.7320508075688772`}]}, InsetBox[
+      StyleBox["9",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6., -1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{7.5, -0.8660254037844386}]}, InsetBox[
+      StyleBox["10",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {7.5, -0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{9., 0.}]}, InsetBox[
+      StyleBox["11",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {9., 0.},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{10.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["12",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {10.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{7.5, -2.598076211353316}]}, InsetBox[
+      StyleBox["13",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {7.5, -2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{9., -1.7320508075688772`}]}, InsetBox[
+      StyleBox["14",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {9., -1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{10.5, -0.8660254037844386}]}, InsetBox[
+      StyleBox["15",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {10.5, -0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{12., 0.}]}, InsetBox[
+      StyleBox["16",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {12., 0.},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{2., 0.}]}, InsetBox[
+      StyleBox["17",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {2., 0.},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["18",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5., 1.7320508075688772`}]}, InsetBox[
+      StyleBox["19",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5., 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6.5, 2.598076211353316}]}, InsetBox[
+      StyleBox["20",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6.5, 2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{3.5, -0.8660254037844386}]}, InsetBox[
+      StyleBox["21",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {3.5, -0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5., 0.}]}, InsetBox[
+      StyleBox["22",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5., 0.},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["23",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{8., 1.7320508075688772`}]}, InsetBox[
+      StyleBox["24",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {8., 1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{5., -1.7320508075688772`}]}, InsetBox[
+      StyleBox["25",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {5., -1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6.5, -0.8660254037844386}]}, InsetBox[
+      StyleBox["26",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6.5, -0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{8., 0.}]}, InsetBox[
+      StyleBox["27",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {8., 0.},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{9.5, 0.8660254037844386}]}, InsetBox[
+      StyleBox["28",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {9.5, 0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{6.5, -2.598076211353316}]}, InsetBox[
+      StyleBox["29",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {6.5, -2.598076211353316},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{8., -1.7320508075688772`}]}, InsetBox[
+      StyleBox["30",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {8., -1.7320508075688772},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{9.5, -0.8660254037844386}]}, InsetBox[
+      StyleBox["31",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {9.5, -0.8660254037844386},
+      BaseStyle->"Graphics"]}, {
+     {RGBColor[0, 1, 1], PointBox[{11., 0.}]}, InsetBox[
+      StyleBox["32",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       PointSize->0.04,
+       Thickness->0.002,
+       FontColor->GrayLevel[0]], {11., 0.},
+      BaseStyle->"Graphics"]}}},
+  BaseStyle->{
+    GrayLevel[0], 
+    PointSize[0.04], 
+    Thickness[0.002]},
+  FormatType->TraditionalForm,
+  Frame->False,
+  FrameTicks->Automatic]], "Output",
+ CellChangeTimes->{
+  3.8119538658504543`*^9, {3.8119551946775*^9, 3.8119552221589527`*^9}, 
+   3.811955381343955*^9, 3.811955551759817*^9, {3.811955642542151*^9, 
+   3.811955661391493*^9}, 3.811955981157921*^9},
+ CellLabel->
+  "Out[828]=",ExpressionUUID->"73834d6c-9b2e-494f-8025-5c3a46cb3440"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1024.5, 528.},
+WindowMargins->{{0, Automatic}, {0, Automatic}},
+Magnification:>1.1 Inherited,
+FrontEndVersion->"12.1 for Linux x86 (64-bit) (June 19, 2020)",
+StyleDefinitions->Notebook[{
+   Cell[
+    StyleData[
+    StyleDefinitions -> 
+     FrontEnd`FileName[{"Book"}, "Textbook.nb", CharacterEncoding -> 
+       "UTF-8"]]], 
+   Cell[
+    BoxData["sdsdsdsds"], "Input", 
+    CellChangeTimes -> {{3.811953204883464*^9, 3.8119532057970963`*^9}}]}, 
+  WindowMargins -> {{209.25, Automatic}, {74.25, Automatic}}, Visible -> 
+  False, FrontEndVersion -> "12.1 for Linux x86 (64-bit) (June 19, 2020)", 
+  StyleDefinitions -> "PrivateStylesheetFormatting.nb"],
+ExpressionUUID->"1500061e-4d62-4773-8322-967425820ed0"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 275, 4, 95, "Title",ExpressionUUID->"9a4aaa65-0e50-450d-a72e-ae04b6dc930d"],
+Cell[858, 28, 477, 9, 44, "Text",ExpressionUUID->"7ce14f4e-12df-45ae-acd0-185ce2d581cb"],
+Cell[1338, 39, 199, 3, 24, "Text",ExpressionUUID->"c1ec644d-2677-4482-b674-1eaf26cff073"],
+Cell[CellGroupData[{
+Cell[1562, 46, 162, 3, 78, "Subtitle",ExpressionUUID->"d892c1da-7e38-4dae-9515-abf259836164"],
+Cell[1727, 51, 222, 4, 24, "Text",ExpressionUUID->"8ab61180-9450-449e-9530-f487b8218152"],
+Cell[1952, 57, 557, 14, 95, "Input",ExpressionUUID->"feaad5d3-2df8-44b5-8895-9e4441847d6b"],
+Cell[2512, 73, 431, 8, 44, "Text",ExpressionUUID->"b3127f10-84ed-45c9-9472-e7de1a012540"],
+Cell[2946, 83, 3932, 99, 410, "Input",ExpressionUUID->"68dabf9c-95d9-4816-8bea-a4d4b90ea688"],
+Cell[6881, 184, 635, 11, 44, "Text",ExpressionUUID->"33c2a8ab-0700-42f4-8944-021129c1e658"],
+Cell[7519, 197, 3583, 89, 199, "Input",ExpressionUUID->"739ffd34-0d8d-4128-a46a-e6d94f2613e4"],
+Cell[11105, 288, 395, 8, 24, "Text",ExpressionUUID->"1e0174f9-f3cc-4b5d-938d-39af521c9152"],
+Cell[CellGroupData[{
+Cell[11525, 300, 537, 12, 20, "Item1Numbered",ExpressionUUID->"5ae97331-a5f4-4ad5-8a06-30f83945db25"],
+Cell[12065, 314, 757, 14, 37, "Item1Numbered",ExpressionUUID->"a7b5a1ab-77c1-41f9-ace4-f1913868215a"],
+Cell[12825, 330, 677, 13, 37, "Item1Numbered",ExpressionUUID->"1275609f-541e-4c3c-98e1-91eb26069530"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13539, 348, 2345, 44, 95, "Input",ExpressionUUID->"d5798a85-e299-4937-b8b3-4a856e431ef1"],
+Cell[15887, 394, 20676, 556, 447, "Output",ExpressionUUID->"2d0942e3-fc5b-4a80-8252-afd3ef30c316"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36612, 956, 162, 3, 78, "Subtitle",ExpressionUUID->"28d76f0a-bb45-4637-982c-90b8c2ead94b"],
+Cell[36777, 961, 463, 12, 95, "Input",ExpressionUUID->"45746100-3629-49b0-aae1-4e61d31cb022"],
+Cell[37243, 975, 1921, 63, 294, "Input",ExpressionUUID->"238b8682-a075-4550-bba3-14569c8383d9"],
+Cell[39167, 1040, 3657, 103, 260, "Input",ExpressionUUID->"d5ee0ec2-aa49-403f-8fe2-c9069c154ee8"],
+Cell[CellGroupData[{
+Cell[42849, 1147, 1953, 38, 95, "Input",ExpressionUUID->"b46d0105-027e-4f9c-839d-abbd97246cf7"],
+Cell[44805, 1187, 13694, 376, 229, "Output",ExpressionUUID->"73834d6c-9b2e-494f-8025-5c3a46cb3440"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
